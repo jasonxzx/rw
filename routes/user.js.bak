@@ -54,5 +54,4 @@ module.exports=router;
 //查询
 router.get("/v1/det",(req,res)=>{
 	var $uid=req.query.uid;
-	console.log($uid);
 });
