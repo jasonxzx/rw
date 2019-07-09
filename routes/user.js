@@ -34,6 +34,7 @@ router.post('/reg',(req,res)=>{
 //登陆
 router.post('/log',(req,res)=>{
 	var obj=req.body;
+	console.log(typeof obj.uname,typeof obj.upwd);
 	if(!obj.uname){
 		res.send({code:'401',msg:'uname required'});
 		return;
@@ -44,15 +45,24 @@ router.post('/log',(req,res)=>{
 	}
 	pool.query('SELECT * FROM rw_user WHERE uname=? AND upwd=?',[obj.name,obj.upwd],(err,result)=>{
 		if(err) throw err;
-		if(result.affectedRows>0)
+		console.log(result);
+		if(result.length>0)
 			res.send({code:'200',msg:'log suc'});
 		else
 			res.send({code:'301',msg:'log err'});
 	});
 });
-module.exports=router;
-//查询
-router.get("/v1/det",(req,res)=>{
-	var $uid=req.query.uid;
-	console.log($uid);
+//根据uid查询
+router.get("/v1/queryuser/:uid",(req,res)=>{
+	var $uid=req.params.uid;
+	var sql="select * from rw_user where uid=?";
+	pool.query(sql,[$uid],(err,result)=>{
+		if(err) throw err;
+		if(result.length>0){
+			res.send(result);
+		}else{
+			res.send("0");
+		}
+	});
 });
+module.exports=router;

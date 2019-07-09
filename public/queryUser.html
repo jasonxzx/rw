@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function queryuser(){
+				var urlParams=new URLSearchParams(location.search);
+				var $uid=urlParams.get("uid");
+				uid.value=$uid;
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=()=>{
+					if(xhr.readyState==4 && xhr.status==200){
+						var result=xhr.responseText;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<input type="text" id="uid"><br>
+		<button onclick="queryuser()">查询</button>
+		<input type="text" id="uname"><br>
+		<input type="text" id="upwd"><br>
+		<input type="text" id="email"><br>
+		<input type="text" id="phone"><br>
+		<input type="radio" name="gender" id="m"><label for="m">男</label>	
+		<input type="radio" name="gender" id="f"><label for="f">女</label>	
+		<input type="radio" name="gender" id="un"><label for="un">保密</label>	
+	</body>
+</html>
