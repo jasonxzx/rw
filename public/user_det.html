@@ -1,15 +1,51 @@
 <!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <title>Document</title>
- </head>
- <body>
-  <input type="text" id="uid"><br>
-	<button >查询用户</button>
- </body>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function queryuser(){	
+				var $uid=uid.value;
+				if(!$uid){
+					alert("401-用户编号为空");
+				}
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=()=>{
+					if(xhr.readyState==4 && xhr.status==200){
+						var result=xhr.responseText;
+						if(result==0){
+							alert("301-未检索到用户");
+							return;
+						}
+						var user=JSON.parse(result)[0];
+						console.log(user);
+						uname.value=user.uname;
+						upwd.value=user.upwd;
+						email.value=user.email;
+						phone.value=user.phone;
+					  if(user.gender=="1"){
+							m.checked=true;
+						}else if(user.gender=="0"){
+							f.checked=true;
+						}else{
+							un.checked=true;
+						}						
+					}
+				}
+				xhr.open("get","/user/v1/queryuser/"+$uid,true);
+				xhr.send();
+			}
+		</script>
+	</head>
+	<body>
+		<input type="text" id="uid"><br>
+		<button onclick="queryuser()">查询</button><br>
+		<input type="text" id="uname"><br>
+		<input type="text" id="upwd"><br>
+		<input type="text" id="email"><br>
+		<input type="text" id="phone"><br>
+		<input type="radio" name="gender" id="m"><label for="m">男</label>	
+		<input type="radio" name="gender" id="f"><label for="f">女</label>	
+		<input type="radio" name="gender" id="un"><label for="un">保密</label>	
+	</body>
 </html>

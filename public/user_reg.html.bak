@@ -7,11 +7,16 @@
 <body>
 	<form method="post" action="/user/reg">
 	用户名：<input type="text" name="uname"><br>
-	密 &nbsp;&nbsp;&nbsp;码：<input type="password" name="upwd"><br>
-	邮 &nbsp;&nbsp;&nbsp;箱：<input type="text" name="email"><br>
+	密码：<input type="password" name="upwd"><br>
+	邮箱：<input type="text" name="email"><br>
 	手机号：<input type="text" name="phone"><br>
-	验证码：<input type="text" name="verify"><br>
-	<input type="submit">	
+<!-- 	性别：<select name="gender" id="s"> -->
+<!-- 						<option value="1">男</option> -->
+<!-- 						<option value="0">女</option> -->
+<!-- 				</select><br> -->
+  性别：<input type="radio" name="gender" value="1" id="m"><label for="m">男</label>
+				<input type="radio" name="gender" value="0" id="f"><label for="f">女</label><br>
+	<button>注册</button>	
 	</form>
 </body>
 </html>

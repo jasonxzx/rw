@@ -5,51 +5,48 @@ var router=express.Router();
 router.post('/reg',(req,res)=>{
 	var obj=req.body;
 	if(!obj.uname){
-		res.send({code:401,msg:'uname required'});
+		res.send({code:401,msg:'用户名为空'});
 		return;
 	}
 	if(!obj.upwd){
-		res.send({code:402,msg:'upwd required'});
-		return;
-	}
-	if(!obj.phone){
-		res.send({code:403,msg:'phone required'});
+		res.send({code:402,msg:'密码为空'});
 		return;
 	}
 	if(!obj.email){
-		res.send({code:404,msg:'email required'});
+		res.send({code:403,msg:'邮箱为空'});
 		return;
 	}
-	if(!obj.verify){
-		res.send({code:405,msg:'verify required'});
+	if(!obj.phone){
+		res.send({code:404,msg:'手机号为空'});
+		return;
+	}
+	if(!obj.gender){
+		res.send({code:405,msg:'性别为空'});
 		return;
 	}
 	pool.query('INSERT INTO rw_user SET ?',[obj],(err,result)=>{
 		if(err) throw err;
-		console.log(result);
 		if(result.affectedRows>0)
-			res.send({code:200,msg:'reg suc'});
+			res.send({code:200,msg:'注册成功'});
 	});
 });
 //登陆
 router.post('/log',(req,res)=>{
 	var obj=req.body;
-	console.log(typeof obj.uname,typeof obj.upwd);
 	if(!obj.uname){
-		res.send({code:'401',msg:'uname required'});
+		res.send({code:'401',msg:'用户名为空'});
 		return;
 	}
 	if(!obj.upwd){
-		res.send({code:'402',msg:'upwd required'});
+		res.send({code:'402',msg:'密码为空'});
 		return;
 	}
-	pool.query('SELECT * FROM rw_user WHERE uname=? AND upwd=?',[obj.name,obj.upwd],(err,result)=>{
+	pool.query('SELECT * FROM rw_user WHERE uname=? AND upwd=?',[obj.uname,obj.upwd],(err,result)=>{
 		if(err) throw err;
-		console.log(result);
 		if(result.length>0)
-			res.send({code:'200',msg:'log suc'});
+			res.send({code:'200',msg:'登陆成功'});
 		else
-			res.send({code:'301',msg:'log err'});
+			res.send({code:'301',msg:'用户名或密码错误'});
 	});
 });
 //根据uid查询

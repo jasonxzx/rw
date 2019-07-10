@@ -3,10 +3,10 @@ DROP DATABASE IF EXISTS	rw;
 CREATE DATABASE rw CHARSET=UTF8;
 USE rw;
 CREATE TABLE rw_user(
-	uid INT PRIMARY KEY,
-	uname VARCHAR(16),
-	upwd VARCHAR(16),
-	email VARCHAR(16),
-	phone VARCHAR(11),
-	verify VARCHAR(6)
+	uid INT PRIMARY KEY AUTO_INCREMENT,
+	uname VARCHAR(32),
+	upwd VARCHAR(32),
+	email VARCHAR(64),
+	phone VARCHAR(16),
+	gender INT
 );
