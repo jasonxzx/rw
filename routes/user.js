@@ -62,4 +62,15 @@ router.get("/v1/queryuser/:uid",(req,res)=>{
 		}
 	});
 });
+//删除用户
+router.delete("/v1/deluser/:uid",(req,res)=>{
+	var $uid=req.params.uid;
+	var sql="delete from rw_user where uid=?";
+	pool.query(sql,[$uid],(err,result)=>{
+		if(err) throw err;
+		if(result.affectedRows>0){
+			res.send("1");
+		}
+	});
+});
 module.exports=router;
