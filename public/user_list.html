@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		function showList(){
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=()=>{
+				if(xhr.readyState==4 && xhr.status==200){
+					var result=xhr.responseText;
+					var arr=JSON.parse(result);
+					var htmlstr=`
+						<table>
+							<tr>
+								<th>用户名称</th>
+								<th>用户邮箱</th>
+								<th>联系方式</th>
+								<th>性别</th>
+								<th>操作</th>
+							</tr>					
+					`;
+					for(var key in arr){
+						htmlstr+=`
+							<tr>
+								<td>${arr[key].uname}</td>
+								<td>${arr[key].email}</td>
+								<td>${arr[key].phone}</td>
+						`;
+						var sex="";
+						if(arr[key].gender==1){
+							sex="男";
+						}else if(arr[key].gender==0){
+							sex="女";
+						}else{
+							sex="未知";
+						}
+						htmlstr+=`
+								<td>${sex}</td>
+								<td>
+									<a href="user_upd.html?uid=${arr[key].uid}">修改</a>
+									<a href="user_del.html?uid=${arr[key].uid}">删除</a>
+								</td>					
+							</tr>
+						`;
+					}
+					htmlstr+=`</table>`;
+					list.innerHTML=htmlstr;
+				}
+			}
+			xhr.open("get","/user/v1/userlist",true);
+			xhr.send();
+		}
+	</script>
+</head>
+<body onload="showList()">
+	<div id="list"></div>
+	
+</body>
+</html>

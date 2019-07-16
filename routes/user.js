@@ -70,7 +70,36 @@ router.delete("/v1/deluser/:uid",(req,res)=>{
 		if(err) throw err;
 		if(result.affectedRows>0){
 			res.send("1");
+		}else{
+			res.send("0");
 		}
+	});
+});
+//修改用户
+router.put("/v1/upduser",(req,res)=>{
+	var $uid=req.body.uid;
+	var $uname=req.body.uname;
+	var $upwd=req.body.upwd;
+	var $email=req.body.email;
+	var $phone=req.body.phone;
+	var $gender=req.body.gender;
+	var sql="update rw_user set uname=?,upwd=?,email=?,phone=?,gender=? where uid=?";
+	pool.query(sql,[$uname,$upwd,$email,$phone,$gender,$uid],(err,result)=>{
+		if(err) throw err;
+		console.log(result);
+		if(result.affectedRows>0){
+			res.send("1");
+		}else{
+			res.send("0");
+		}
+	});
+});
+//用户列表
+router.get("/v1/userlist",(req,res)=>{
+	var sql="select * from rw_user";
+	pool.query(sql,(err,result)=>{
+		if(err) throw err;
+		res.send(result);
 	});
 });
 module.exports=router;

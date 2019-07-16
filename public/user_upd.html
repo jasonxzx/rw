@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		function queryUser(){
+			//用bom操作获取地址栏传递过来的uid
+			var urlParams=new URLSearchParams(location.search);
+			var $uid=urlParams.get("uid");
+			uid.value=$uid;
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=()=>{
+				if(xhr.readyState==4 && xhr.status==200){
+					var result=xhr.responseText;
+					var user=JSON.parse(result)[0];
+					uname.value=user.uname;
+					upwd.value=user.upwd;
+					email.value=user.email;
+					phone.value=user.phone;
+					if(user.gender=="1"){
+						m.checked=true;
+					}else if(user.gender=="0"){
+						f.checked=true;
+					}else{
+						un.checked=true;
+					}
+				}
+			}
+			xhr.open("get","/user/v1/queryuser/"+$uid,true);
+			xhr.send();
+		}
+		function updateUser(){
+			$uid=uid.value;
+			$uname=uname.value;
+			$upwd=upwd.value;
+			$email=email.value;
+			$phone=phone.value;
+			$gender=null;
+			if(m.checked){
+				$gender=1;
+			}else{
+				$gender=0;
+			}
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=()=>{
+				if(xhr.readyState==4 && xhr.status==200){
+					var result=xhr.responseText;					
+					if(result=="1"){
+						alert("200-修改成功");
+						location.href="http://127.0.0.1:1666/user_list.html";
+					}else{
+						alert("301-更改失败");
+					}
+				}
+			}
+			xhr.open("put","/user/v1/upduser",true);
+			var formdata=`uname=${$uname}&upwd=${$upwd}&email=${$email}&phone=${$phone}&gender=${$gender}&uid=${$uid}`;
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.send(formdata);
+		}
+	</script>
+</head>
+<body onload="queryUser()">
+	<input type="text" id="uid" readonly><br>
+	<input type="text" id="uname"><br>
+	<input type="text" id="upwd"><br>
+	<input type="text" id="email"><br>
+	<input type="text" id="phone"><br>
+	<input type="radio" id="m" name="gender"><label for="m">男</label>
+	<input type="radio" id="f" name="gender"><label for="f">女</label>
+	<input type="radio" id="un" name="gender"><label for="un">保密</label><br>
+	<button onclick="updateUser()">修改</button>
+</body>
+</html>
