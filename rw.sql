@@ -10,3 +10,18 @@ CREATE TABLE rw_user(
 	phone VARCHAR(16),
 	gender INT
 );
+
+CREATE TABLE rw_car_family(
+	fid INT PRIMARY KEY AUTO_INCREMENT,
+	fnanme VARCHAR(32)
+);
+INSERT INTO rw_car_family VALUES(1,"SUV");
+INSERT INTO rw_car_family VALUES(2,"轿车");
+INSERT INTO rw_car_family VALUES(3,"新能源");
+
+CREATE TABLE rw_car(
+	qid INT PRIMARY AUTO_INCREMENT,
+	family_id INT,
+	product_id INT,
+	price DECIMAL(8,2)
+);

@@ -1,6 +1,17 @@
 const express=require('express');
 const pool=require('../pool.js');
 var router=express.Router();
+//注册ajax
+router.post('/v1/reg',(req,res)=>{
+	var obj=req.body;
+	var sql="insert into rw_user set ?";
+	pool.query(sql,[obj],function(err,result){
+		if(err) throw err;
+		if(result.affectedRows>0){
+			res.send("1");
+		}
+	});
+});
 //注册
 router.post('/reg',(req,res)=>{
 	var obj=req.body;
